@@ -6,10 +6,25 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/cors": "^0.7.0",
+    "@hapi/boom": "^10.0.1",
+    "elysia": "latest",
+    "mongoose": "^7.5.2",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "@eslint/create-config": "^0.4.6",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.6.2",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3"
   },
   "module": "src/index.js"
 }
