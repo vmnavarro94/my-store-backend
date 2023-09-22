@@ -6,13 +6,12 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/cors": "^0.7.0",
+    "@elysiajs/jwt": "^0.7.0",
     "@hapi/boom": "^10.0.1",
     "elysia": "latest",
-    "mongoose": "^7.5.2",
-    "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "mongoose": "^7.5.2"
   },
   "devDependencies": {
     "bun-types": "latest",

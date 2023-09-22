@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia'
 import { User as UserType } from '../types/user.type'
 import UserService from '../services/user.service'
+import { isAuthenticated } from '../middlewares/auth.handler'
 
 const service = new UserService()
 
@@ -12,6 +13,7 @@ export const userRouter = (app: Elysia) =>
         set.status = 201
         return newUser.toClient()
       })
+      .use(isAuthenticated)
       .get('/', async ({ set }) => {
         const users = await service.find()
         set.status = 200
