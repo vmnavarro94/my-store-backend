@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { User, UserMethods, UserModel } from '../types/user.type'
 import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '../utils/constants'
+import { Permission } from '../types/permission.type'
 
 const encryptPwd = (password: string) => {
   return Bun.password.hashSync(password)
@@ -41,7 +42,13 @@ const Users = new Schema<User, UserModel, UserMethods>({
   lastModifiedDate: {
     type: Number,
     default: () => Date.now()
-  }
+  },
+  permissions: [
+    {
+      type: String,
+      enum: Object.values(Permission)
+    }
+  ]
 })
 
 Users.methods.toClient = function () {
@@ -49,7 +56,8 @@ Users.methods.toClient = function () {
     id: this._id,
     name: this.name,
     email: this.email,
-    phoneNumber: this.phoneNumber
+    phoneNumber: this.phoneNumber,
+    permissions: this.permissions
   }
 }
 

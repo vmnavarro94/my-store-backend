@@ -2,6 +2,9 @@ import { Elysia } from 'elysia'
 import { Product } from '../types/product.type'
 import ProductService from '../services/product.service'
 import { isAuthenticated } from '../middlewares/auth.handler'
+import { hasPermission } from '../hooks'
+
+import { Permission } from '../types/permission.type'
 
 const service = new ProductService()
 
@@ -9,11 +12,6 @@ export const productRouter = (app: Elysia) =>
   app.group('/products', (app) =>
     app
       .use(isAuthenticated)
-      .post('/', async ({ body, set }) => {
-        const newProduct = await service.create(body as Product)
-        set.status = 201
-        return newProduct
-      })
       .get('/', async ({ set }) => {
         const products = await service.find()
         set.status = 200
@@ -24,14 +22,32 @@ export const productRouter = (app: Elysia) =>
         set.status = 200
         return product
       })
-      .patch('/:id', async ({ params: { id }, body: product, set }) => {
-        const updatedProducts = await service.update(id, product as Product)
-        set.status = 200
-        return updatedProducts
-      })
-      .delete('/:id', async ({ params: { id }, set }) => {
-        const deletedProduct = await service.delete(id)
-        set.status = 200
-        return deletedProduct
-      })
+      .guard(
+        {
+          beforeHandle: hasPermission([
+            Permission.ADMINISTRATOR,
+            Permission.MANAGE_PRODUCTS
+          ])
+        },
+        (app) =>
+          app
+            .post('/', async ({ body, set }) => {
+              const newProduct = await service.create(body as Product)
+              set.status = 201
+              return newProduct
+            })
+            .patch('/:id', async ({ params: { id }, body: product, set }) => {
+              const updatedProducts = await service.update(
+                id,
+                product as Product
+              )
+              set.status = 200
+              return updatedProducts
+            })
+            .delete('/:id', async ({ params: { id }, set }) => {
+              const deletedProduct = await service.delete(id)
+              set.status = 200
+              return deletedProduct
+            })
+      )
   )
