@@ -1,11 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { User, UserMethods, UserModel } from '../types/user.type'
-
-const EMAIL_REGEX =
-  /^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
-
-const PHONE_NUMBER_REGEX =
-  /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '../utils/constants'
 
 const encryptPwd = (password: string) => {
   return Bun.password.hashSync(password)

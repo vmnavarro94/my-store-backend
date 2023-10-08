@@ -1,22 +1,10 @@
 import boom from '@hapi/boom'
 import Users from '../models/user.model'
 import type { User as UserType, ToClientUser } from '../types/user.type'
-
-const mongoFindErrorHandler = (error: any) => {
-  switch (error.code) {
-    default:
-      throw boom.badGateway('There was an error trying to find the user')
-  }
-}
-
-const mongoMutateErrorHandler = (error: any) => {
-  switch (error.code) {
-    case 11000:
-      throw boom.badData('Email already exists')
-    default:
-      throw boom.badGateway('There was an error trying to save the data')
-  }
-}
+import {
+  mongoFindErrorHandler,
+  mongoMutateErrorHandler
+} from '../utils/mongoErrorHandling'
 
 class UserService {
   constructor() {}
