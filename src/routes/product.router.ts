@@ -3,7 +3,6 @@ import { Product } from '../types/product.type'
 import ProductService from '../services/product.service'
 import { isAuthenticated } from '../middlewares/auth.handler'
 import { hasPermission } from '../hooks'
-
 import { Permission } from '../types/permission.type'
 
 const service = new ProductService()
