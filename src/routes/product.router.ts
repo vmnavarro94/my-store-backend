@@ -21,12 +21,24 @@ export const productRouter = (app: Elysia) =>
         set.status = 200
         return product
       })
+      .patch(
+        '/stock/:id',
+        async ({ params: { id }, body: stock, set }) => {
+          const updatedProducts = await service.updateStock(
+            id,
+            stock as {
+              stockOnHand?: Product['stockOnHand']
+              stockOnStorage?: Product['stockOnStorage']
+            }
+          )
+          set.status = 200
+          return updatedProducts
+        },
+        { beforeHandle: hasPermission([Permission.MANAGE_INVENTORY]) }
+      )
       .guard(
         {
-          beforeHandle: hasPermission([
-            Permission.ADMINISTRATOR,
-            Permission.MANAGE_PRODUCTS
-          ])
+          beforeHandle: hasPermission([Permission.MANAGE_PRODUCTS])
         },
         (app) =>
           app

@@ -33,7 +33,9 @@ class ProductService {
     throw boom.notFound('Product not found')
   }
 
-  async update(id: ProductType['id'], data: ProductType) {
+  async update(id: ProductType['id'], data: Partial<ProductType>) {
+    delete data?.stockOnHand
+    delete data?.stockOnStorage
     const product = await Products.findByIdAndUpdate({ _id: id }, data, {
       new: true
     })
@@ -52,6 +54,34 @@ class ProductService {
     const product = await Products.findOneAndDelete({ _id: id })
       .populate('categories')
       .catch((error) => {
+        mongoFindErrorHandler(error)
+        mongoMutateErrorHandler(error)
+      })
+
+    if (product) return product
+
+    throw boom.notFound('Product not found')
+  }
+
+  async updateStock(
+    id: ProductType['id'],
+    {
+      stockOnHand,
+      stockOnStorage
+    }: {
+      stockOnHand?: ProductType['stockOnHand']
+      stockOnStorage?: ProductType['stockOnStorage']
+    }
+  ) {
+    const product = await Products.findByIdAndUpdate(
+      { _id: id },
+      { stockOnHand, stockOnStorage },
+      {
+        new: true
+      }
+    )
+      .populate('categories')
+      .catch((error: any) => {
         mongoFindErrorHandler(error)
         mongoMutateErrorHandler(error)
       })
