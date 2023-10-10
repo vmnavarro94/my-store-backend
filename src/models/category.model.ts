@@ -7,6 +7,7 @@ const Categories = new Schema<Category, CategoryModel>({
     type: String,
     required: true,
     trim: true,
+    index: true,
     unique: true
   },
   description: {
