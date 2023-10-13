@@ -34,6 +34,21 @@ class InstallmentService {
 
     throw boom.notFound('Installment not found')
   }
+
+  async delete(id: Installment['id']) {
+    const installment = await Installments.findByIdAndUpdate(
+      id,
+      { active: false },
+      { new: true }
+    ).catch((error) => {
+      mongoFindErrorHandler(error)
+      mongoMutateErrorHandler(error)
+    })
+
+    if (installment) return installment
+
+    throw boom.notFound('Installment not found')
+  }
 }
 
 export default InstallmentService
