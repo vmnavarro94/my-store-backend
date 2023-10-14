@@ -38,7 +38,7 @@ class InstallmentService {
   async delete(id: Installment['id']) {
     const installment = await Installments.findByIdAndUpdate(
       id,
-      { active: false },
+      { isActive: false },
       { new: true }
     ).catch((error) => {
       mongoFindErrorHandler(error)

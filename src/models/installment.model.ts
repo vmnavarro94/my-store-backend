@@ -18,7 +18,7 @@ const Installments = new Schema<Installment, InstallmentModel>({
     type: Number,
     default: () => Date.now()
   },
-  active: {
+  isActive: {
     type: Boolean,
     default: () => true
   }

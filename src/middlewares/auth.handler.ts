@@ -17,7 +17,7 @@ export const isAuthenticated = (app: Elysia) =>
     const service = new UserService()
     try {
       const user = await service.findById(userId)
-      if (!user.activeUser) {
+      if (!user.isActive) {
         throw boom.unauthorized('You are not authenticated')
       }
     } catch (error) {

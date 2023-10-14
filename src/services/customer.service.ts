@@ -16,15 +16,17 @@ class CustomerService {
   }
 
   async find() {
-    const customers = await Customers.find({ active: true }).catch((error) => {
-      throw error
-    })
+    const customers = await Customers.find({ isActive: true }).catch(
+      (error) => {
+        throw error
+      }
+    )
 
     return customers
   }
 
   async findById(id: Customer['id']) {
-    const customer = await Customers.findOne({ _id: id, active: true }).catch(
+    const customer = await Customers.findOne({ _id: id, isActive: true }).catch(
       mongoFindErrorHandler
     )
 
@@ -34,9 +36,9 @@ class CustomerService {
   }
 
   async update(id: Customer['id'], data: Partial<Customer>) {
-    delete data?.active
+    delete data?.isActive
     const customer = await Customers.findOneAndUpdate(
-      { _id: id, active: true },
+      { _id: id, isActive: true },
       data,
       {
         new: true
@@ -54,7 +56,7 @@ class CustomerService {
   async delete(id: Customer['id']) {
     const customer = await Customers.findByIdAndUpdate(
       id,
-      { active: false },
+      { isActive: false },
       { new: true }
     ).catch((error) => {
       mongoFindErrorHandler(error)
@@ -69,7 +71,7 @@ class CustomerService {
   async reActivateCustomer(id: Customer['id']) {
     const customer = await Customers.findByIdAndUpdate(
       id,
-      { active: true },
+      { isActive: true },
       { new: true }
     ).catch((error) => {
       mongoFindErrorHandler(error)

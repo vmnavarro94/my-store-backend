@@ -31,7 +31,7 @@ const Users = new Schema<User, UserModel, UserMethods>({
     required: true,
     match: [PHONE_NUMBER_REGEX, 'Please provide a valid phone number']
   },
-  activeUser: {
+  isActive: {
     type: Boolean,
     default: () => true
   },

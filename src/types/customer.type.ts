@@ -11,7 +11,7 @@ export type Customer = {
   storeCredit: number
   createDate: number
   lastModifiedDate: number
-  active: boolean
+  isActive: boolean
 }
 
 export type CustomerModel = Model<Customer>

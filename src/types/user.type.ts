@@ -3,7 +3,7 @@ import { Permission } from './permission.type'
 
 export type User = ToClientUser & {
   password: string
-  activeUser: boolean
+  isActive: boolean
   createdDate: number
   lastModifiedDate: number
   permissions?: Permission[]

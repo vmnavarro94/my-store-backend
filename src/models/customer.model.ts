@@ -46,7 +46,7 @@ const Customers = new Schema<Customer, CustomerModel>({
     type: Number,
     default: () => Date.now()
   },
-  active: {
+  isActive: {
     type: Boolean,
     default: () => true
   }

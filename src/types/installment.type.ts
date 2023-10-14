@@ -7,7 +7,7 @@ export type Installment = {
   amount: number
   createDateTime: number
   lastModifiedDateTime: number
-  active: boolean
+  isActive: boolean
 }
 
 export type InstallmentModel = Model<Installment>
