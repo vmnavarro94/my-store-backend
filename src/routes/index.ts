@@ -4,6 +4,7 @@ import { authRouter } from './auth.router'
 import { categoryRouter } from './category.router'
 import { productRouter } from './product.router'
 import { customerRouter } from './customer.router'
+import { transactionRouter } from './transaction.router'
 
 export const appRouter = (app: Elysia) =>
   app.group('/api/v1', (app) =>
@@ -13,4 +14,5 @@ export const appRouter = (app: Elysia) =>
       .use(categoryRouter)
       .use(productRouter)
       .use(customerRouter)
+      .use(transactionRouter)
   )
