@@ -51,7 +51,11 @@ class ProductService {
   }
 
   async delete(id: ProductType['id']) {
-    const product = await Products.findOneAndDelete({ _id: id })
+    const product = await Products.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    )
       .populate('categories')
       .catch((error) => {
         mongoFindErrorHandler(error)
