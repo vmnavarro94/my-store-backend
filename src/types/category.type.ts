@@ -5,6 +5,7 @@ export type Category = {
   name: string
   description?: string
   imageUrl?: string
+  isActive: boolean
 }
 
 export type CategoryModel = Model<Category>

@@ -18,7 +18,7 @@ class CategoryService {
 
   async find() {
     try {
-      const categories = await Categories.find()
+      const categories = await Categories.find({ isActive: true })
       return categories
     } catch (error) {
       throw error
@@ -33,7 +33,8 @@ class CategoryService {
     throw boom.notFound('Category not found')
   }
 
-  async update(id: CategoryType['id'], data: CategoryType) {
+  async update(id: CategoryType['id'], data: Partial<CategoryType>) {
+    delete data?.isActive
     const category = await Categories.findByIdAndUpdate({ _id: id }, data, {
       new: true
     }).catch((error: any) => {
@@ -47,12 +48,14 @@ class CategoryService {
   }
 
   async delete(id: CategoryType['id']) {
-    const category = await Categories.findOneAndDelete({ _id: id }).catch(
-      (error) => {
-        mongoFindErrorHandler(error)
-        mongoMutateErrorHandler(error)
-      }
-    )
+    const category = await Categories.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    ).catch((error) => {
+      mongoFindErrorHandler(error)
+      mongoMutateErrorHandler(error)
+    })
 
     if (category) return category
 

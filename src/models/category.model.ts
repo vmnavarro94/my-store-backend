@@ -16,6 +16,10 @@ const Categories = new Schema<Category, CategoryModel>({
   imageUrl: {
     type: String,
     match: [IMAGE_URL_REGEX, 'Please provide a valid image url']
+  },
+  isActive: {
+    type: Boolean,
+    default: () => true
   }
 })
 
