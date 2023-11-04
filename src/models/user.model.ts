@@ -24,7 +24,8 @@ const Users = new Schema<User, UserModel, UserMethods>({
   password: {
     type: String,
     required: true,
-    set: encryptPwd
+    set: encryptPwd,
+    select: false
   },
   phoneNumber: {
     type: String,
@@ -33,15 +34,18 @@ const Users = new Schema<User, UserModel, UserMethods>({
   },
   isActive: {
     type: Boolean,
-    default: () => true
+    default: () => true,
+    select: false
   },
   createdDate: {
     type: Number,
-    default: () => Date.now()
+    default: () => Date.now(),
+    select: false
   },
   lastModifiedDate: {
     type: Number,
-    default: () => Date.now()
+    default: () => Date.now(),
+    select: false
   },
   permissions: [
     {

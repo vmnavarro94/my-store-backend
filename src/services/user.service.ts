@@ -38,7 +38,9 @@ class UserService {
   }
 
   async findByEmail(email: UserType['email']) {
-    const user = await Users.findOne({ email }).catch(mongoFindErrorHandler)
+    const user = await Users.findOne({ email })
+      .select('password')
+      .catch(mongoFindErrorHandler)
 
     if (user) return user
 
@@ -46,7 +48,9 @@ class UserService {
   }
 
   async findById(id: UserType['id']) {
-    const user = await Users.findById(id).catch(mongoFindErrorHandler)
+    const user = await Users.findById(id)
+      .select('isActive permissions email name phoneNumber')
+      .catch(mongoFindErrorHandler)
 
     if (user) return user
 
