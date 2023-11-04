@@ -1,13 +1,25 @@
 import { Schema, model } from 'mongoose'
 import { Transaction, TransactionModel } from '../types/transaction.type'
 import { Payment } from '../types/payment.type'
-
+// {
+//     type: [Schema.Types.ObjectId],
+//     ref: 'Product',
+//     required: true
+//   },
 const Transactions = new Schema<Transaction, TransactionModel>({
-  products: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Product',
-    required: true
-  },
+  products: [
+    {
+      product: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Product',
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true
+      }
+    }
+  ],
   seller: {
     type: Schema.Types.ObjectId,
     ref: 'User',

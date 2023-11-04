@@ -1,8 +1,11 @@
 import type { Model, Schema } from 'mongoose'
+import type { Product } from './product.type'
+
+// Schema.Types.ObjectId[] | Product[]
 
 export type Transaction = {
   id: string
-  products: Schema.Types.ObjectId[]
+  products: [{ product: Schema.Types.ObjectId | Product; quantity: number }]
   seller: Schema.Types.ObjectId
   createDate: number
   lastModifiedDate: number
