@@ -77,8 +77,6 @@ class TransactionService {
       products: [...registeredFlashProducts, ...inventoryProducts]
     }
 
-    console.log({ transactionData })
-
     const transaction = await Transactions.create(transactionData).catch(
       mongoMutateErrorHandler
     )
