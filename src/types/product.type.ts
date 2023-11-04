@@ -15,6 +15,7 @@ export type Product = {
   reducedPrice?: number
   isOnSale: boolean
   isActive: boolean
+  isFlash: boolean
 }
 
 export type ProductModel = Model<Product>

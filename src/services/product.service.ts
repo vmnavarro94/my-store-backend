@@ -10,7 +10,7 @@ import { getImageUrls } from '../utils/getImageUrls'
 class ProductService {
   constructor() {}
 
-  async create({ images, json }: { images: Blob[]; json: string }) {
+  async create({ images = [], json }: { images?: Blob[]; json: string }) {
     const data: ProductType = JSON.parse(json)
     const product = await Products.create(data).catch(mongoMutateErrorHandler)
     if (!images) return this.findById(product.id)
@@ -31,7 +31,9 @@ class ProductService {
 
   async find() {
     try {
-      const products = await Products.find().populate('categories')
+      const products = await Products.find({ isFlash: false }).populate(
+        'categories'
+      )
       return products
     } catch (error) {
       throw error

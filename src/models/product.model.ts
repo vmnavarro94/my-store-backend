@@ -52,6 +52,10 @@ const Products = new Schema<Product, ProductModel>({
   isActive: {
     type: Boolean,
     default: () => true
+  },
+  isFlash: {
+    type: Boolean,
+    default: () => false
   }
 })
 
