@@ -2,9 +2,8 @@ import { Elysia } from 'elysia'
 import boom from '@hapi/boom'
 import UserService from '../services/user.service'
 
-export const isAuthenticated = (app: Elysia) =>
-  //TODO: fix this any
-  app.derive(async ({ cookie, jwt }: any) => {
+export const isAuthenticated = new Elysia().derive(
+  async ({ cookie, jwt }: any) => {
     if (!cookie!.token) {
       throw boom.unauthorized('You are not authenticated')
     }
@@ -23,4 +22,5 @@ export const isAuthenticated = (app: Elysia) =>
     } catch (error) {
       throw boom.unauthorized('You are not authenticated')
     }
-  })
+  }
+)

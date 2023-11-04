@@ -7,45 +7,44 @@ import { Permission } from '../types/permission.type'
 
 const service = new CategoryService()
 
-export const categoryRouter = (app: Elysia) =>
-  app.group('/categories', (app) =>
-    app
-      .use(isAuthenticated)
-      .get('/', async ({ set }) => {
-        const categories = await service.find()
-        set.status = 200
-        return categories
-      })
-      .get('/:id', async ({ params: { id }, set }) => {
-        const category = await service.findById(id)
-        set.status = 200
-        return category
-      })
-      .guard(
-        {
-          beforeHandle: hasPermission([Permission.MANAGE_PRODUCTS])
-        },
-        (app) =>
-          app
-            .post('/', async ({ body, set }) => {
-              const newCategory = await service.create(
-                body as { image: Blob; json: string }
-              )
-              set.status = 201
-              return newCategory
-            })
-            .patch('/:id', async ({ params: { id }, body: category, set }) => {
-              const updatedCategory = await service.update(
-                id,
-                category as { image: Blob; json: string }
-              )
-              set.status = 200
-              return updatedCategory
-            })
-            .delete('/:id', async ({ params: { id }, set }) => {
-              const deletedCategory = await service.delete(id)
-              set.status = 200
-              return deletedCategory
-            })
-      )
-  )
+export const categoryRouter = new Elysia().group('/categories', (app) =>
+  app
+    .use(isAuthenticated)
+    .get('/', async ({ set }) => {
+      const categories = await service.find()
+      set.status = 200
+      return categories
+    })
+    .get('/:id', async ({ params: { id }, set }) => {
+      const category = await service.findById(id)
+      set.status = 200
+      return category
+    })
+    .guard(
+      {
+        beforeHandle: hasPermission([Permission.MANAGE_PRODUCTS])
+      },
+      (app) =>
+        app
+          .post('/', async ({ body, set }) => {
+            const newCategory = await service.create(
+              body as { image: Blob; json: string }
+            )
+            set.status = 201
+            return newCategory
+          })
+          .patch('/:id', async ({ params: { id }, body: category, set }) => {
+            const updatedCategory = await service.update(
+              id,
+              category as { image: Blob; json: string }
+            )
+            set.status = 200
+            return updatedCategory
+          })
+          .delete('/:id', async ({ params: { id }, set }) => {
+            const deletedCategory = await service.delete(id)
+            set.status = 200
+            return deletedCategory
+          })
+    )
+)
