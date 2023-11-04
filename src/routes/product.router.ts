@@ -49,7 +49,10 @@ export const productRouter = new Elysia().group('/products', (app) =>
             return newProduct
           })
           .patch('/:id', async ({ params: { id }, body: product, set }) => {
-            const updatedProducts = await service.update(id, product as Product)
+            const updatedProducts = await service.update(
+              id,
+              product as { images: Blob[]; json: string }
+            )
             set.status = 200
             return updatedProducts
           })
