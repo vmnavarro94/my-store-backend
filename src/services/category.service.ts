@@ -15,6 +15,8 @@ class CategoryService {
     const category = await Categories.create(data).catch(
       mongoMutateErrorHandler
     )
+    if (!image) return category
+
     const imageService = new ImageService()
     const imageUrl = await imageService.saveImage(image)
 

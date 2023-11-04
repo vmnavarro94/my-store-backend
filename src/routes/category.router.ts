@@ -28,14 +28,16 @@ export const categoryRouter = (app: Elysia) =>
         (app) =>
           app
             .post('/', async ({ body, set }) => {
-              const newCategory = await service.create(body as CategoryType)
+              const newCategory = await service.create(
+                body as { image: Blob; json: string }
+              )
               set.status = 201
               return newCategory
             })
             .patch('/:id', async ({ params: { id }, body: category, set }) => {
               const updatedCategory = await service.update(
                 id,
-                category as CategoryType
+                category as { image: Blob; json: string }
               )
               set.status = 200
               return updatedCategory

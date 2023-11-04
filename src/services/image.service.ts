@@ -20,6 +20,7 @@ class ImageService {
   }
 
   async saveImage(image: Blob) {
+    if (!image) return ''
     try {
       const imageName = `${crypto.randomUUID()}.jpeg`
       const putObjectCommand = new PutObjectCommand({
