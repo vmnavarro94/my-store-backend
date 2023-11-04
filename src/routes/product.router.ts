@@ -43,7 +43,9 @@ export const productRouter = (app: Elysia) =>
         (app) =>
           app
             .post('/', async ({ body, set }) => {
-              const newProduct = await service.create(body as Product)
+              const newProduct = await service.create(
+                body as { images: Blob[]; json: string }
+              )
               set.status = 201
               return newProduct
             })

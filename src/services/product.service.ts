@@ -5,13 +5,28 @@ import {
   mongoMutateErrorHandler,
   mongoFindErrorHandler
 } from '../utils/mongoErrorHandling'
+import { getImageUrls } from '../utils/getImageUrls'
 
 class ProductService {
   constructor() {}
 
-  async create(data: ProductType) {
+  async create({ images, json }: { images: Blob[]; json: string }) {
+    const data: ProductType = JSON.parse(json)
     const product = await Products.create(data).catch(mongoMutateErrorHandler)
-    return this.findById(product.id)
+    if (!images) return this.findById(product.id)
+
+    const imageUrls = await getImageUrls(images)
+
+    const updatedProduct = await Products.findByIdAndUpdate(
+      { _id: product.id },
+      { imageUrls },
+      { new: true }
+    ).catch((error: any) => {
+      mongoFindErrorHandler(error)
+      mongoMutateErrorHandler(error)
+    })
+
+    return updatedProduct
   }
 
   async find() {
@@ -33,12 +48,23 @@ class ProductService {
     throw boom.notFound('Product not found')
   }
 
-  async update(id: ProductType['id'], data: Partial<ProductType>) {
+  async update(
+    id: ProductType['id'],
+    { images, json }: { images: Blob[]; json: string }
+  ) {
+    const data: Partial<ProductType> = JSON.parse(json)
     delete data?.stockOnHand
     delete data?.stockOnStorage
-    const product = await Products.findByIdAndUpdate({ _id: id }, data, {
-      new: true
-    })
+
+    const imageUrls = await getImageUrls(images)
+
+    const product = await Products.findByIdAndUpdate(
+      { _id: id },
+      { ...data, imageUrls },
+      {
+        new: true
+      }
+    )
       .populate('categories')
       .catch((error: any) => {
         mongoFindErrorHandler(error)
