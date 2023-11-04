@@ -33,11 +33,19 @@ const Transactions = new Schema<Transaction, TransactionModel>({
     type: Number,
     default: () => Date.now()
   },
-  paymentMethods: {
-    type: [String],
-    enum: Object.values(Payment),
-    required: true
-  },
+  paymentMethods: [
+    {
+      method: {
+        type: String,
+        enum: Object.values(Payment),
+        required: true
+      },
+      amount: {
+        type: Number,
+        required: true
+      }
+    }
+  ],
   total: {
     type: Number,
     required: true

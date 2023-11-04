@@ -1,5 +1,6 @@
 import type { Model, Schema } from 'mongoose'
 import type { Product } from './product.type'
+import type { PaymentMethod } from './payment.type'
 
 // Schema.Types.ObjectId[] | Product[]
 
@@ -9,7 +10,7 @@ export type Transaction = {
   seller: Schema.Types.ObjectId
   createDate: number
   lastModifiedDate: number
-  paymentMethods: string[]
+  paymentMethods: PaymentMethod[]
   total: number
   subtotal: number
   profit: number

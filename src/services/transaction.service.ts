@@ -35,6 +35,7 @@ class TransactionService {
     )
     //TOOD: Calculate total based on tax, for now total and subtotal are the same
     let subtotal = 0
+    let total = 0
     let profit = 0
     const productService = new ProductService()
 
@@ -68,10 +69,19 @@ class TransactionService {
       subtotal += productSubTotal
       profit += productProfit
     }
+    total = subtotal
+
+    let paymentMethodsTotal = 0
+    data.paymentMethods.forEach(({ amount }) => (paymentMethodsTotal += amount))
+
+    if (paymentMethodsTotal != total)
+      throw boom.badData(
+        'Payment methods total does not match transaction total'
+      )
 
     const transactionData = {
       ...data,
-      total: subtotal,
+      total,
       subtotal,
       profit,
       products: [...registeredFlashProducts, ...inventoryProducts]

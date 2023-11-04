@@ -5,3 +5,8 @@ export enum Payment {
   STORE_CREDIT = 'storeCredit',
   OTHER = 'other'
 }
+
+export type PaymentMethod = {
+  method: Payment
+  amount: number
+}
