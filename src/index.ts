@@ -20,6 +20,10 @@ export const app = new Elysia()
   .use(cookie())
   .onError(elysiaErrorHandler)
   .use(appRouter)
+  .get('/', async ({ set }) => {
+    set.status = 200
+    return 'Welcome to My Store'
+  })
 
 const init = async () => {
   await mongoose.connect(mongoUri, {
